@@ -9,7 +9,7 @@ export default function ToDoList():React.JSX.Element{
         <ListItem name={item} description="Null" priority={index}></ListItem>
     ));
     return (
-    <div>
+    <div className="rounded">
         <h1>To Do List</h1>
         {listBody}
         <button>Add Item</button>
