@@ -53,11 +53,17 @@ const blankItem:ListItemStruct = {
 export default function ToDoList():React.JSX.Element{
     let [items, setItems] = useState<ListItemStruct[]>(list_data);
     let [editorOpen, setEditorOpen] = useState<boolean>(false);
+    let [targetTaskID, setTargetTaskID] = useState<string>("new"); 
     let [editorValues, setEditorValues] = useState<ListItemStruct>(blankItem);
 
     const toggleEditor = () => {
         setEditorValues(blankItem);
         setEditorOpen(!editorOpen);
+    }
+    const addTask = () => {
+        setTargetTaskID("new");
+        setEditorValues(blankItem);
+        setEditorOpen(true)
     }
     const updateList = (newItem:ListItemStruct) => {
         if (newItem.id === "0000"){
@@ -69,6 +75,7 @@ export default function ToDoList():React.JSX.Element{
         setEditorOpen(false);
     }
     const editListItem = (itemID:string, deleteItem:boolean) => {
+
         let itemNumber = items.findIndex((item)=>item.id === itemID);
         if (itemNumber !== -1){
             if (deleteItem){
@@ -78,6 +85,7 @@ export default function ToDoList():React.JSX.Element{
                 setEditorOpen(true);
             }
         }
+        setTargetTaskID(itemID);
     }
  
 
@@ -92,11 +100,11 @@ export default function ToDoList():React.JSX.Element{
             <div className="grid grid-cols-1 gap-y-3 w-lg place-items-center content-center">
                 {listBody}
             </div>
-            <button className="bg-gray-900 rounded-md w-xs" onClick={toggleEditor}>{editorOpen ? "Cancel" : "Add Item"}</button>
+            <button className="bg-gray-900 rounded-md w-xs" onClick={addTask}>Add Item</button>
         </div>
         {editorOpen && 
         <div>
-            <ItemEditor item={editorValues} updateList={updateList} closeEditor={toggleEditor}></ItemEditor>
+            <ItemEditor key={targetTaskID} item={editorValues} updateList={updateList} closeEditor={toggleEditor}></ItemEditor>
         </div>
         }
     </div>
