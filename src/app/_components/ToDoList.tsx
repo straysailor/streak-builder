@@ -67,14 +67,20 @@ export default function ToDoList():React.JSX.Element{
             const newItems = items.filter((item)=>item.id !== newItem.id);
             setItems([...newItems, {...newItem}]);
         }
+        setEditorOpen(false);
     }
-    const editListItem = (itemID:string) => {
+    const editListItem = (itemID:string, deleteItem:boolean) => {
         let itemNumber = items.findIndex((item)=>item.id === itemID);
         if (itemNumber !== -1){
-            setEditorValues(items[itemNumber]);
-            setEditorOpen(true);
+            if (deleteItem){
+                setItems([...items.filter((item) => item.id !== itemID)]);
+            } else {
+                setEditorValues(items[itemNumber]);
+                setEditorOpen(true);
+            }
         }
     }
+ 
 
     let listBody = items.map((listItem, index) => (
         <ListItem item={listItem} editItem={editListItem}></ListItem>
