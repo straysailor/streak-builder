@@ -3,7 +3,8 @@ import { useState } from "react";
 import { ListItemStruct } from "../../../.next/types/listItemType";
  interface ItemEditorProps{
     item:ListItemStruct,
-    updateList: (newItem:ListItemStruct) => void
+    updateList: (newItem:ListItemStruct) => void,
+    closeEditor: ()=>void
 }
 
 function getToday():string{
@@ -14,7 +15,7 @@ function getToday():string{
     return `${year}-${month}-${day}`;
 }
 
-export default function ItemEditor({item, updateList}:ItemEditorProps):React.JSX.Element{
+export default function ItemEditor({item, updateList, closeEditor}:ItemEditorProps):React.JSX.Element{
     let [taskName, setName] = useState<string>(item.name);
     let [taskDesc, setTaskDesc] = useState<string>(item.description);
     let [taskDueDate, setTaskDueDate] = useState<string>(item.dueDate);
@@ -46,7 +47,10 @@ export default function ItemEditor({item, updateList}:ItemEditorProps):React.JSX
     }
     return (
         <div className="flex flex-col w-lg bg-teal-900 p-4 rounded-xl">
-            <h1>{item.name === "" ? "Add" : "Edit"} a Task</h1>
+            <div className="flex flex-row justify-between">
+                <h1>{item.name === "" ? "Add" : "Edit"} a Task</h1>
+                <button className="text-lg font-bold" onClick={closeEditor}>×</button>
+            </div>
             <div className="grid grid-rows-6 gap-y-4 m-2">
                 <input type="text" required={true} value={taskName} contentEditable="true" placeholder="To Do Item" className="bg-gray-900 rounded-md"
                 onChange={(e)=>{setName(e.target.value)}}></input>

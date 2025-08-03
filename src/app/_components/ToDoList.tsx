@@ -59,7 +59,6 @@ export default function ToDoList():React.JSX.Element{
         setEditorValues(blankItem);
         setEditorOpen(!editorOpen);
     }
-
     const updateList = (newItem:ListItemStruct) => {
         if (newItem.id === "0000"){
             setItems([...items, {...newItem, id:crypto.randomUUID()}]);
@@ -97,7 +96,7 @@ export default function ToDoList():React.JSX.Element{
         </div>
         {editorOpen && 
         <div>
-            <ItemEditor item={editorValues} updateList={updateList}></ItemEditor>
+            <ItemEditor item={editorValues} updateList={updateList} closeEditor={toggleEditor}></ItemEditor>
         </div>
         }
     </div>
