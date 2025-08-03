@@ -2,7 +2,7 @@
 import { useState } from "react"
 import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
-import { ListItemStruct } from "../../../.next/types/listItemType";
+import { ListItemStruct } from "../listItemType";
 
 let list_data = [
     {
