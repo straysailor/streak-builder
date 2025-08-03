@@ -9,9 +9,10 @@ function reformatDate(date:string):string{
 }
 
 interface ListProps {
-    item:ListItemStruct
+    item:ListItemStruct,
+    editItem: (itemName:string) => void
 }
-export default function ListItem({item}:ListProps):React.JSX.Element{
+export default function ListItem({item, editItem}:ListProps):React.JSX.Element{
     let [expanded, setExpanded] = useState<boolean>(false);
     let [completed, setCompleted] = useState<boolean>(false);
     const revealDecription = () => {
@@ -42,7 +43,7 @@ export default function ListItem({item}:ListProps):React.JSX.Element{
                         {(item.goal !== "") && <p>Contributes to {item.goal}</p>}
                     </div>
                     <div className="grid grid-cols-2 gap-x-2">
-                        <button className="bg-gray-900 rounded-md h-10">Edit Item</button>
+                        <button className="bg-gray-900 rounded-md h-10" onClick={()=>{editItem(item.id)}}>Edit Item</button>
                         <button className="bg-gray-900 rounded-md h-10">Remove Item</button>
                     </div>
                 </div> }

@@ -31,6 +31,7 @@ export default function ItemEditor({item, updateList}:ItemEditorProps):React.JSX
         } else {
             setWarningVisible(false);
             const newTask:ListItemStruct = {
+                id: item.id,
                 name:taskName,
                 description: taskDesc,
                 dueDate: (taskDueDate === "mm/dd/yyyy" ? "none": taskDueDate),
