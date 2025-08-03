@@ -2,36 +2,64 @@
 import { useState } from "react"
 import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
+import { ListItemStruct } from "../../../.next/types/listItemType";
 
 let list_data = [
     {
         name: "Daily Workout",
-        description: "3x10 Pushups\n4x30sec Planks\n3x10 Crunches"
+        description: "3x10 Pushups\n4x30sec Planks\n3x10 Crunches",
+        dateAdded: "2025-03-01",
+        dueDate: "none",
+        goal: "Getting Buff",
+        reoccuring: true,
+        trophy: false,
+        priority: 2
     },
     {
-        name: "Water plants",
-        description: "Basil: Heavy Watering. Thyme & Cactus: Light watering"
+        name: "Math Homework",
+        description: "Set of 30 Matrix operations",
+        dateAdded: "2025-07-21",
+        dueDate: "2025-07-31",
+        goal: "",
+        reoccuring: false,
+        trophy: false,
+        priority: 4
     },
     {
         name: "Walk Dog",
-        description: "Do it or Fido will destroy the couch again."
+        description: "Do it or Fido will destroy the couch again.",
+        dateAdded: "2025-01-03",
+        dueDate: "none",
+        goal: "",
+        reoccuring: true,
+        trophy: false,
+        priority: 3
     },
 ]
-
+const blankItem:ListItemStruct = {
+    name:"",
+    description: "",
+    dateAdded: "none",
+    dueDate:  "none",
+    trophy: false,
+    goal: "",
+    reoccuring: false,
+    priority: 0,
+}
 export default function ToDoList():React.JSX.Element{
-    let [items, setItems] = useState(list_data);
+    let [items, setItems] = useState<ListItemStruct[]>(list_data);
     let [editorOpen, setEditorOpen] = useState<boolean>(false)
 
     const toggleEditor = () => {
         setEditorOpen(!editorOpen);
     }
 
-    const updateList = (name:string, description:string) => {
-        setItems([...items, {name:name, description:description}]);
+    const updateList = (newItem:ListItemStruct) => {
+        setItems([...items, {...newItem}]);
     }
 
-    let listBody = items.map((item, index) => (
-        <ListItem name={item.name} description={item.description} priority={index}></ListItem>
+    let listBody = items.map((listItem, index) => (
+        <ListItem item={listItem}></ListItem>
     ));
 
     return (
@@ -45,7 +73,7 @@ export default function ToDoList():React.JSX.Element{
         </div>
         {editorOpen && 
         <div>
-            <ItemEditor name="" description="" updateList={updateList}></ItemEditor>
+            <ItemEditor item={blankItem} updateList={updateList}></ItemEditor>
         </div>
         }
     </div>
