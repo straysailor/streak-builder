@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { ListItemStruct } from "../listItemType";
+import { ListItemStruct } from "../_types/listItemType";
  interface ItemEditorProps{
     item:ListItemStruct,
     updateList: (newItem:ListItemStruct) => void,

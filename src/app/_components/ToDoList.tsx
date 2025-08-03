@@ -2,7 +2,7 @@
 import { useState } from "react"
 import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
-import { ListItemStruct } from "../listItemType";
+import { ListItemStruct } from "../_types/listItemType";
 
 let list_data = [
     {
@@ -96,7 +96,12 @@ export default function ToDoList():React.JSX.Element{
     return (
     <div className={`grid ${editorOpen ? "grid-cols-2" : "grid-cols-1"}`}>
         <div className="grid grid-cols-1 gap-y-8 w-lg place-items-center content-center p-6 bg-teal-700 rounded-xl">
-            <h1 className="text-xl">To Do List</h1>
+            <div className="grid grid-cols-3 w-full justify-items-center">
+                <button className="place-self-start">⚙️</button>
+                <h1 className="text-xl">To Do List</h1>
+                <button></button>
+            </div>
+            
             <div className="grid grid-cols-1 gap-y-3 w-lg place-items-center content-center">
                 {listBody}
             </div>

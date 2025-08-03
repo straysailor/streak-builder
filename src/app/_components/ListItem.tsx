@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { ListItemStruct } from "../listItemType";
+import { ListItemStruct } from "../_types/listItemType";
 
 function reformatDate(date:string):string{
     const dateParts:string[] = date.split("-");
