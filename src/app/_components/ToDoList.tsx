@@ -4,6 +4,7 @@ import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
 import { ListItemStruct } from "../_types/listItemType";
 import Image from 'next/image';
+import ListEditor from "./ListEditor";
 
 let list_data = [
     {
@@ -97,7 +98,12 @@ export default function ToDoList():React.JSX.Element{
         <ListItem item={listItem} editItem={editListItem}></ListItem>
     ));
     return (
-    <div className={`grid ${editorOpen ? "grid-cols-2" : "grid-cols-1"}`}>
+    <div className={`grid ${(editorOpen && settingsOpen) ?"grid-cols-3": (editorOpen || settingsOpen) ? "grid-cols-2" : "grid-cols-1"}`}>
+        {settingsOpen &&
+        <div>
+            <ListEditor></ListEditor>
+        </div>
+        }
         <div className="grid grid-cols-1 gap-y-8 w-lg place-items-center content-center p-6 bg-teal-700 rounded-xl">
             <div className="grid grid-cols-3 w-full justify-items-center">
                 <button className="place-self-start" onClick={toggleSettings}>
