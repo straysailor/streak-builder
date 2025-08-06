@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { ListItemStruct } from "../_types/listItemType";
-
-function reformatDate(date:string):string{
-    const dateParts:string[] = date.split("-");
-    return `${dateParts[1]}-${dateParts[2]}-${dateParts[0]}`;
-}
+import { reformatDate } from "../_functions/dateHandling";
 
 interface ListProps {
     item:ListItemStruct,

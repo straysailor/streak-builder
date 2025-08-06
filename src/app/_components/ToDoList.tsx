@@ -5,6 +5,7 @@ import ItemEditor from "./ItemEditor";
 import { ListItemStruct } from "../_types/listItemType";
 import Image from 'next/image';
 import ListEditor from "./ListEditor";
+import { compareDates } from "../_functions/dateHandling";
 
 let list_data = [
     {
@@ -110,9 +111,10 @@ export default function ToDoList():React.JSX.Element{
             case 'priority':
                 return [...newList].sort((a,b)=> b.priority - a.priority);
             case 'date added':
-                return newList
+                return [...newList].sort((a,b) => compareDates(a.dateAdded, b.dateAdded));
             case 'due date':
-                return newList
+                let notDue = [...newList.filter((item)=>item.dueDate === "none")];
+                return [...[...newList.filter((item)=>item.dueDate !== "none")].sort((a,b) => compareDates(a.dueDate, b.dueDate)),...notDue];
             case 'completion':
                 return newList
             default:

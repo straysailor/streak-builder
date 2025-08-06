@@ -1,19 +1,13 @@
 'use client'
 import { useState } from "react";
 import { ListItemStruct } from "../_types/listItemType";
+import { getToday } from "../_functions/dateHandling";
  interface ItemEditorProps{
     item:ListItemStruct,
     updateList: (newItem:ListItemStruct) => void,
     closeEditor: ()=>void
 }
 
-function getToday():string{
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); 
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
 
 export default function ItemEditor({item, updateList, closeEditor}:ItemEditorProps):React.JSX.Element{
     let [taskName, setName] = useState<string>(item.name);
