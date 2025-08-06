@@ -125,7 +125,7 @@ export default function ToDoList():React.JSX.Element{
                 return [...newList].sort((a,b) => compareDates(a.dateAdded, b.dateAdded));
             case 'due date':
                 let notDue = [...newList.filter((item)=>item.dueDate === "none")];
-                return [...[...newList.filter((item)=>item.dueDate !== "none")].sort((a,b) => compareDates(a.dueDate, b.dueDate)),...notDue];
+                return [...[...newList.filter((item)=>item.dueDate !== "none")].sort((a,b) => -compareDates(a.dueDate, b.dueDate)),...notDue];
             case 'completion':
                 return [...newList.filter((a)=> a.completed),...newList.filter((a)=>!a.completed)]
             default:
