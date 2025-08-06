@@ -1,19 +1,13 @@
 'use client'
 import { useState } from "react";
-import { ListItemStruct } from "../listItemType";
+import { ListItemStruct } from "../_types/listItemType";
+import { getToday } from "../_functions/dateHandling";
  interface ItemEditorProps{
     item:ListItemStruct,
     updateList: (newItem:ListItemStruct) => void,
     closeEditor: ()=>void
 }
 
-function getToday():string{
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); 
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
 
 export default function ItemEditor({item, updateList, closeEditor}:ItemEditorProps):React.JSX.Element{
     let [taskName, setName] = useState<string>(item.name);
@@ -40,7 +34,8 @@ export default function ItemEditor({item, updateList, closeEditor}:ItemEditorPro
                 goal: taskGoal,
                 reoccuring: taskReoccuring,
                 priority: taskPriority,
-                trophy:taskTrophy
+                trophy:taskTrophy,
+                completed: false,
             }
             updateList(newTask);
         }
@@ -71,11 +66,11 @@ export default function ItemEditor({item, updateList, closeEditor}:ItemEditorPro
                         <option className="bg-gray-900" id="1" value="1" >Low</option>
                     </select>
                 </div>
-                <div className="grid grid-cols-3 gap-x-2">
+                {/* <div className="grid grid-cols-3 gap-x-2">
                     <button  className="bg-gray-900 rounded-md" onClick={()=>{setTrophy(!taskTrophy)}}>Add Trophy</button>
                     <button  className="bg-gray-900 rounded-md">Add to Goal</button>
-                    <button  className="bg-gray-900 rounded-md" onClick={()=>{setReoccuring(!taskReoccuring)}}>Make Reoccuring</button>
-                </div>
+                    <button  className="bg-gray-900 rounded-md" disabled={true} onClick={()=>{setReoccuring(!taskReoccuring)}}>Make Reoccuring</button>
+                </div> */}
             </div>
             <button className="bg-gray-900 p-2 rounded-md w-1/4 place-self-center"
             onClick={addTask}>{item.name === "" ? "Add" : "Update"}</button>

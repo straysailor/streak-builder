@@ -6,6 +6,7 @@ export interface ListItemStruct {
     dueDate: string,
     priority: number,
     goal: string,
+    completed: boolean,
     reoccuring: boolean
     trophy: boolean
 }
