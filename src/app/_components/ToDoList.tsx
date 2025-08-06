@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
 import { ListItemStruct } from "../_types/listItemType";
@@ -54,11 +54,14 @@ const blankItem:ListItemStruct = {
 }
 export default function ToDoList():React.JSX.Element{
     let [items, setItems] = useState<ListItemStruct[]>(list_data);
+    let [displayOrder, setDisplayOrder] = useState<string>("default");
+    let [focusedGoal, setFocusedGoal] = useState<string>("None");
     let [editorOpen, setEditorOpen] = useState<boolean>(false);
     let [targetTaskID, setTargetTaskID] = useState<string>("new"); 
     let [editorValues, setEditorValues] = useState<ListItemStruct>(blankItem);
     let [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
+    // Functions Handling Task Addition / Updates
     const toggleEditor = () => {
         setEditorValues(blankItem);
         setEditorOpen(!editorOpen);
@@ -90,21 +93,53 @@ export default function ToDoList():React.JSX.Element{
         }
         setTargetTaskID(itemID);
     }
+
+    // Functions Handling List Settings
     const toggleSettings = () => {
         setSettingsOpen(!settingsOpen)
     }
 
-    let listBody = items.map((listItem, index) => (
-        <ListItem item={listItem} editItem={editListItem}></ListItem>
+    const sortedList = useMemo(() => {
+        let newList = [...items]
+        if (focusedGoal !== "None"){
+            newList = [...items.filter((item) => item.goal === focusedGoal)];
+        }
+        switch (displayOrder){
+            case 'title':
+                return [...newList].sort((a,b) => a.name.localeCompare(b.name));
+            case 'priority':
+                return [...newList].sort((a,b)=> b.priority - a.priority);
+            case 'date added':
+                return newList
+            case 'due date':
+                return newList
+            case 'completion':
+                return newList
+            default:
+                return newList
+        }
+    }, [items, displayOrder, focusedGoal]);
+
+
+    const updateOrder = (sortBy:string) => {
+        setDisplayOrder(sortBy);
+    }
+
+    const filterGoals = (goal:string) => {
+        setFocusedGoal(goal);
+    }
+
+    let listBody = sortedList.map((listItem) => (
+        <ListItem key={listItem.id} item={listItem} editItem={editListItem}></ListItem>
     ));
     return (
-    <div className={`grid ${(editorOpen && settingsOpen) ?"grid-cols-3": (editorOpen || settingsOpen) ? "grid-cols-2" : "grid-cols-1"}`}>
-        {settingsOpen &&
+    <div className={`grid grid-cols-3`}>
         <div>
-            <ListEditor></ListEditor>
-        </div>
+        {settingsOpen &&
+            <ListEditor sortList={updateOrder} filterGoals={filterGoals}></ListEditor>
         }
-        <div className="grid grid-cols-1 gap-y-8 w-lg place-items-center content-center p-6 bg-teal-700 rounded-xl">
+        </div>
+        <div className="grid grid-cols-1 gap-y-8 w-lg place-items-center place-self-start content-center p-6 bg-teal-700 rounded-xl min-h-110">
             <div className="grid grid-cols-3 w-full justify-items-center">
                 <button className="place-self-start" onClick={toggleSettings}>
                     <Image
@@ -120,17 +155,16 @@ export default function ToDoList():React.JSX.Element{
                 <button></button>
             </div>
             
-            <div className="grid grid-cols-1 gap-y-3 w-lg place-items-center content-center">
+            <div className="grid grid-cols-1 gap-y-3 w-lg place-items-center content-center min-h-65">
                 {listBody}
             </div>
             <button className="bg-gray-900 rounded-md w-xs" onClick={addTask}>Add Item</button>
         </div>
-        {editorOpen && 
         <div>
+        {editorOpen && 
             <ItemEditor key={targetTaskID} item={editorValues} updateList={updateList} closeEditor={toggleEditor}></ItemEditor>
-        </div>
         }
+        </div>
     </div>
-
     )
 }
