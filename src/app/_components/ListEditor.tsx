@@ -33,8 +33,6 @@ export default function ListEditor({sortList, filterGoals, hideComplete}:listEdi
                         <label htmlFor="goalSelect">Sort by Goal:</label>
                         <select name="goalSelect" className="bg-gray-900 m-2 rounded-sm" onChange={(e)=>{filterGoals(e.target.value)}}>
                             <option>None</option>
-                            <option>Getting Buff</option>
-                            <option>Coding Practice</option>
                         </select>
                     </div>
                 </div>
