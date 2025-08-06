@@ -3,10 +3,10 @@ interface listEditorProps {
     sortList: (sortBy:string) => void,
     filterGoals: (goal:string) => void,
     // enableColors: (enable:boolean) => void,
-    // hideComplete: (hide:boolean) => void
+    hideComplete: (hide:boolean) => void
 }
 
-export default function ListEditor({sortList, filterGoals}:listEditorProps):React.JSX.Element{
+export default function ListEditor({sortList, filterGoals, hideComplete}:listEditorProps):React.JSX.Element{
     const changeSort = (option:string) => {
         const selection = option.toLowerCase();
         sortList(selection);
@@ -44,12 +44,12 @@ export default function ListEditor({sortList, filterGoals}:listEditorProps):Reac
                 <div className="grid grid-cols-1">
                     <div className="flex flex-row justify-between">
                         <label htmlFor="hideChecked">Hide Checked Items:</label>
-                        <input type="checkbox" name="hideChecked"></input>
+                        <input type="checkbox" name="hideChecked" onChange={(e)=>{hideComplete(e.target.checked)}}></input>
                     </div>
-                    <div className="flex flex-row justify-between">
+                    {/* <div className="flex flex-row justify-between">
                         <label htmlFor="colorOnSort">Recolor Based on Sort Options:</label>
                         <input type="checkbox" name="colorOnSort"></input>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

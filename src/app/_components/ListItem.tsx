@@ -6,15 +6,17 @@ import { reformatDate } from "../_functions/dateHandling";
 
 interface ListProps {
     item:ListItemStruct,
-    editItem: (itemName:string, deleteItem:boolean) => void
+    editItem: (itemID:string, deleteItem:boolean) => void,
+    checkItem: (itemID:string, checked:boolean) => void
 }
-export default function ListItem({item, editItem}:ListProps):React.JSX.Element{
+export default function ListItem({item, editItem, checkItem}:ListProps):React.JSX.Element{
     let [expanded, setExpanded] = useState<boolean>(false);
-    let [completed, setCompleted] = useState<boolean>(false);
+    let [completed, setCompleted] = useState<boolean>(item.completed);
     const revealDecription = () => {
         setExpanded(!expanded);
     };
     const completeTask = () => {
+        checkItem(item.id,!completed);
         setCompleted(!completed);
     }
     return (
@@ -30,7 +32,7 @@ export default function ListItem({item, editItem}:ListProps):React.JSX.Element{
                             <p className="wrap-break-word">{item.description}</p>
                         </div>
                         <div>
-                            <input type="checkbox" checked={completed} onChange={completeTask}></input>
+                            <input type="checkbox" checked={item.completed} onChange={completeTask}></input>
                         </div>
                     </div>
                     <div className="flex justify-between">

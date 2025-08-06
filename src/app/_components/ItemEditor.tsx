@@ -34,7 +34,8 @@ export default function ItemEditor({item, updateList, closeEditor}:ItemEditorPro
                 goal: taskGoal,
                 reoccuring: taskReoccuring,
                 priority: taskPriority,
-                trophy:taskTrophy
+                trophy:taskTrophy,
+                completed: false,
             }
             updateList(newTask);
         }
