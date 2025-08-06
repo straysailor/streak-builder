@@ -10,11 +10,11 @@ import { compareDates } from "../_functions/dateHandling";
 let list_data:ListItemStruct[] = [
     {
         id:crypto.randomUUID(),
-        name: "Daily Workout",
-        description: "3x10 Pushups\n4x30sec Planks\n3x10 Crunches",
+        name: "Daily Coding",
+        description: "At least 3 sets of Leet Code Problems",
         dateAdded: "2025-03-01",
         dueDate: "none",
-        goal: "Getting Buff",
+        goal: "Programming Streak",
         reoccuring: true,
         trophy: false,
         priority: 2,
