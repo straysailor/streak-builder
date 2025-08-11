@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import Image from 'next/image';
+import Link from "next/link";
 
 interface NavbarProps {
     username: string,
@@ -31,6 +32,7 @@ export default function Navbar():React.JSX.Element{
                     <span>John Doe</span>
                 </div>
                 :
+                <Link href="/login">
                 <div className="flex justify-start items-center gap-3 p-2 bg-gray-900 rounded-md">
                     <Image
                     src="/globe.svg"
@@ -41,9 +43,11 @@ export default function Navbar():React.JSX.Element{
                     </Image>
                     <span>Log In / Sign Up</span>
                 </div>
+                </Link>
                 }
                 
                 <span>Pages</span>
+                <Link href="/">
                 <div className="flex justify-start items-center gap-3 p-2 bg-gray-900 rounded-md">
                     <Image
                     src="/globe.svg"
@@ -54,6 +58,8 @@ export default function Navbar():React.JSX.Element{
                     </Image>
                     <span>Trophy Room</span>
                 </div>
+                </Link>
+                <Link href="/">
                 <div className="flex justify-start items-center gap-3 p-2 bg-gray-900 rounded-md">
                     <Image
                     src="/globe.svg"
@@ -64,6 +70,8 @@ export default function Navbar():React.JSX.Element{
                     </Image>
                     <span>Goal Progress</span>
                 </div>
+                </Link>
+                <Link href="/task-list">
                 <div className="flex justify-start items-center gap-3 p-2 bg-gray-900 rounded-md">
                     <Image
                     src="/globe.svg"
@@ -74,6 +82,7 @@ export default function Navbar():React.JSX.Element{
                     </Image>
                     <span>Task List</span>
                 </div>
+                </Link>
                 <button className="bg-gray-900 rounded-full px-3 py-1 place-self-end" >?</button>
             </div>      
             }
