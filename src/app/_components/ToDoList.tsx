@@ -6,8 +6,19 @@ import { ListItemStruct } from "../_types/listItemType";
 import Image from 'next/image';
 import ListEditor from "./ListEditor";
 import { compareDates } from "../_functions/dateHandling";
-import { loadTasks, saveTask, saveTasks } from "../_functions/localstorage";
-
+import { loadTasks, removeTask, saveTask, saveTasks } from "../_functions/localstorage";
+const tutorialItem:ListItemStruct = {
+    id: "0001",
+    name: "Add your first task",
+    description: "Click the 'Add Item' button at the bottom of the page. Then, give your task a name and click 'Add'.",
+    dateAdded: "2025-08-31",
+    dueDate:  "none",
+    trophy: false,
+    goal: "",
+    reoccuring: false,
+    priority: 0,
+    completed:false,
+}
 const blankItem:ListItemStruct = {
     id: "0000",
     name:"",
@@ -33,7 +44,11 @@ export default function ToDoList():React.JSX.Element{
     // Load tasks from local storage, if any.
     useEffect(()=> {
         const savedTasks = loadTasks();
-        setItems(savedTasks)
+        if (savedTasks.length === 0){
+            setItems([{...tutorialItem}]);
+        } else {
+            setItems(savedTasks);
+        }
     },[]);
 
   /**
@@ -84,6 +99,7 @@ export default function ToDoList():React.JSX.Element{
         if (itemNumber !== -1){
             if (deleteItem){
                 setItems([...items.filter((item) => item.id !== itemID)]);
+                removeTask(itemID);
             } else {
                 setEditorValues(items[itemNumber]);
                 setEditorOpen(true);

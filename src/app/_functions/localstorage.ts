@@ -25,3 +25,12 @@ export function saveTasks(tasks: ListItemStruct[]):void{
 export function loadTasks(): ListItemStruct [] {
     return JSON.parse(localStorage.getItem("tasks") || "[]");
 }
+
+/**
+ * @function removeTask
+ * @param taskID a string containing the ID of a task to be removed from the task list
+ * @description removes a target task from the tasks in local storage
+ */
+export function removeTask(taskID: string) {
+    saveTasks([...loadTasks().filter((t) =>(t.id !== taskID))]);
+}
