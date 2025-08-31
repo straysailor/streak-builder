@@ -11,6 +11,8 @@ User Authentication & Cloud Storage
 
     - Data storage utilizing PostgreSQL and Supabase
     - User profiles and secure, encrypted password storage
+    
+Mobile Friendly Interface
 
 Goals & Streaks
 
