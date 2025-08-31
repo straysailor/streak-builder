@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import ListItem from "./ListItem";
 import ItemEditor from "./ItemEditor";
 import { ListItemStruct } from "../_types/listItemType";
@@ -7,8 +7,6 @@ import Image from 'next/image';
 import ListEditor from "./ListEditor";
 import { compareDates } from "../_functions/dateHandling";
 import { loadTasks, saveTask, saveTasks } from "../_functions/localstorage";
-
-let list_data:ListItemStruct[] = loadTasks();
 
 const blankItem:ListItemStruct = {
     id: "0000",
@@ -23,7 +21,7 @@ const blankItem:ListItemStruct = {
     completed:false,
 }
 export default function ToDoList():React.JSX.Element{
-    let [items, setItems] = useState<ListItemStruct[]>(list_data);
+    let [items, setItems] = useState<ListItemStruct[]>([]);
     let [displayOrder, setDisplayOrder] = useState<string>("default");
     let [focusedGoal, setFocusedGoal] = useState<string>("None");
     let [editorOpen, setEditorOpen] = useState<boolean>(false);
@@ -32,16 +30,36 @@ export default function ToDoList():React.JSX.Element{
     let [settingsOpen, setSettingsOpen] = useState<boolean>(false);
     let [hideComplete, setHideComplete] = useState<boolean>(false);
 
-    // Functions Handling Task Addition / Updates
+    // Load tasks from local storage, if any.
+    useEffect(()=> {
+        const savedTasks = loadTasks();
+        setItems(savedTasks)
+    },[]);
+
+  /**
+   * @function toggleEditor
+   * @description Clears any previous data left in the task editor and toggles it open/closed.
+   */
     const toggleEditor = () => {
         setEditorValues(blankItem);
         setEditorOpen(!editorOpen);
     }
+
+   /**
+    * @function addTask
+    * @description Opens the task editor with blank values
+    */
     const addTask = () => {
         setTargetTaskID("new");
         setEditorValues(blankItem);
         setEditorOpen(true)
     }
+    /** 
+     * @function updateList
+     * @param {ListItemStruct} newItem - A new or altered item
+     * @description Updates the task list by adding to new item, or replacing an existing item with its altered version.
+     * @returns {void}
+    */
     const updateList = (newItem:ListItemStruct) => {
         if (newItem.id === "0000"){
             let registeredItem:ListItemStruct = {...newItem, id:crypto.randomUUID()};
@@ -54,6 +72,12 @@ export default function ToDoList():React.JSX.Element{
         };
         setEditorOpen(false);
     }
+    /**
+     * @function editListItem
+     * @param {string} itemID - ID of the item to be modified
+     * @param {boolean} deleteItem - Marks item for deletion
+     * @description Populates the Item Editor with the target task's data so it can be modified, unless the item is marked for deletion.
+     */
     const editListItem = (itemID:string, deleteItem:boolean) => {
 
         let itemNumber = items.findIndex((item)=>item.id === itemID);
@@ -68,16 +92,34 @@ export default function ToDoList():React.JSX.Element{
         setTargetTaskID(itemID);
     }
 
+    /**
+     * @function checkItem
+     * @param {string} itemID - ID of the item to be modified
+     * @param {boolean} checkValue 
+     * @description Updates an item in the list if it has been marked/unmarked completed.
+     */
     const checkItem = (itemID:string, checkValue:boolean) => {
         let updatedList: ListItemStruct[] = [...items.filter((item)=>item.id !== itemID),{...items.filter((item)=>item.id === itemID)[0], completed:checkValue}]
         setItems(updatedList);
         saveTasks(updatedList);
     }
-    // Functions Handling List Settings
+ 
+    /**
+     * @function toggleSettings
+     * @description Opens or closes the list settings menu.
+     */
     const toggleSettings = () => {
         setSettingsOpen(!settingsOpen)
     }
 
+    /**
+     * @var sortedList
+     * @dependencies - items, displayOrder, focusedGoal, hideComplete
+     * @description Contains the last variation of a list sorted by the user, which is to be displayed in the component. Also handles the sorting
+     * of the list when the user changes the sort variation and stores it in the variable. Also handles the filtering of
+     * items; if focusedGoal has a value, it will only contain items linked to the target goal; if hideComplete is true, it will
+     * only contain uncompleted items.
+     */
     const sortedList = useMemo(() => {
         let newList = [...items]
         if (focusedGoal !== "None"){
@@ -103,15 +145,29 @@ export default function ToDoList():React.JSX.Element{
         }
     }, [items, displayOrder, focusedGoal, hideComplete]);
 
-
+    /**
+     * @function updateOrder
+     * @param sortBy - a string describing the sort method (title, priority, date added, due date, completion)
+     * @description Updates the state of displayOrder with what was selected in the ListEditor.
+     */
     const updateOrder = (sortBy:string) => {
         setDisplayOrder(sortBy);
     }
 
+    /**
+     * @function filterGoals
+     * @param goal - a string containing the ID of a goal.
+     * @description Updates the state of focusedGoal with what was selected in the ListEditor.
+     */
     const filterGoals = (goal:string) => {
         setFocusedGoal(goal);
     }
 
+    /**
+     * @function hideCompleted
+     * @param sortBy - a string describing the sort method (title, priority, date added, due date, completion)
+     * @description Updates the state of displayOrder with what was selected in the ListEditor.
+     */
     const hideCompleted = (hide:boolean)=>{
         setHideComplete(hide);
     }
