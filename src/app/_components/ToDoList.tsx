@@ -6,45 +6,10 @@ import { ListItemStruct } from "../_types/listItemType";
 import Image from 'next/image';
 import ListEditor from "./ListEditor";
 import { compareDates } from "../_functions/dateHandling";
+import { loadTasks, saveTask, saveTasks } from "../_functions/localstorage";
 
-let list_data:ListItemStruct[] = [
-    {
-        id:crypto.randomUUID(),
-        name: "Daily Coding",
-        description: "At least 3 sets of Leet Code Problems",
-        dateAdded: "2025-03-01",
-        dueDate: "none",
-        goal: "Programming Streak",
-        reoccuring: true,
-        trophy: false,
-        priority: 2,
-        completed:false,
-    },
-    {
-        id:crypto.randomUUID(),
-        name: "Math Homework",
-        description: "Set of 30 Matrix operations",
-        dateAdded: "2025-07-21",
-        dueDate: "2025-07-31",
-        goal: "",
-        reoccuring: false,
-        trophy: false,
-        priority: 4,
-        completed:false,
-    },
-    {
-        id:crypto.randomUUID(),
-        name: "Walk Dog",
-        description: "Do it or Fido will destroy the couch again.",
-        dateAdded: "2025-01-03",
-        dueDate: "none",
-        goal: "",
-        reoccuring: true,
-        trophy: false,
-        priority: 3,
-        completed:false,
-    },
-]
+let list_data:ListItemStruct[] = loadTasks();
+
 const blankItem:ListItemStruct = {
     id: "0000",
     name:"",
@@ -79,11 +44,14 @@ export default function ToDoList():React.JSX.Element{
     }
     const updateList = (newItem:ListItemStruct) => {
         if (newItem.id === "0000"){
-            setItems([...items, {...newItem, id:crypto.randomUUID()}]);
+            let registeredItem:ListItemStruct = {...newItem, id:crypto.randomUUID()};
+            setItems([...items, registeredItem]);
+            saveTask(registeredItem);
         } else {
             const newItems = items.filter((item)=>item.id !== newItem.id);
             setItems([...newItems, {...newItem}]);
-        }
+            saveTask(newItem);
+        };
         setEditorOpen(false);
     }
     const editListItem = (itemID:string, deleteItem:boolean) => {
@@ -101,7 +69,9 @@ export default function ToDoList():React.JSX.Element{
     }
 
     const checkItem = (itemID:string, checkValue:boolean) => {
-        setItems([...items.filter((item)=>item.id !== itemID),{...items.filter((item)=>item.id === itemID)[0], completed:checkValue}])
+        let updatedList: ListItemStruct[] = [...items.filter((item)=>item.id !== itemID),{...items.filter((item)=>item.id === itemID)[0], completed:checkValue}]
+        setItems(updatedList);
+        saveTasks(updatedList);
     }
     // Functions Handling List Settings
     const toggleSettings = () => {
