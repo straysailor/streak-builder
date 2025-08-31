@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Streak Builder App
+Developed by Sophia Heicksen
 
-## Getting Started
+View the deployed site: https://streak-builder.vercel.app/task-list
 
-First, run the development server:
+## About
+Streak Builder is an organization app that aims to provide a customizable but user-friendly environment where you can organize your to-do lists and keep on track for your long term goals.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Planned Features
+User Authentication & Cloud Storage
+    * Data storage utilizing PostgreSQL and Supabase
+    * User profiles and secure, encrypted password storage
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Goals & Streaks
+    * Tracks progress towards long term goals, whether that be personal projects or habit building
+    * Visualized streak to show consistency of work
+    * List of associated tasks that contribute towards the goal and boost your streak
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Trophies & Trophy Case
+    * Selection of Trophy images to associate with your choice of tasks or goals. 
+    * For when you complete a big task or goal, commemorate your achievement with a trophy in your personal trophy case.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Multiple Task Lists
+    * Have numerous task lists to better organize your work.
 
-## Learn More
+Repeating Tasks
+    * Have a task that occurs every few hours, days, or weeks? Have it be prepopulated in your daily task list when you log onto the app each day.
 
-To learn more about Next.js, take a look at the following resources:
+Improved Deadline / Priority Visualization
+    * More of a visual person? Have your tasks be displayed on a timeline or in a calender view, where upcoming deadlines and priority are emphasized. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technologies
+This app was built using Next.js, Typescript, and Tailwind CSS
